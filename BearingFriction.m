@@ -1,10 +1,11 @@
-function [frictionTorque] = BearingFriction(f,RPM,type,OD,ID,width,oilViscosity)
+function [frictionTorque] = BearingFriction(f,RPM,type,OD,ID,width,statLoad,oilViscosity)
 %FRICTION this function calculates the frictional torque of the bearing
 %   Detailed explanation goes here
 
 
 dm = (OD+ID)/2;
 fr=sqrt(f(2)^2+f(3)^2);
+fa = f(1);
 phiish = 1/(1+1.84e-9 * (RPM*dm)^1.28 * oilViscosity^0.64);
 if(type=="deepBall")
     kz = 3.1;
@@ -14,11 +15,11 @@ if(type=="deepBall")
     s2=36.5;
     grr=r1*dm^1.6 *(fr+r2*f(1)/(sind(24.6*(f(1)/statLoad)^0.24)))^0.54;
     uehl=0.04;
-    gsl=s1*dm^(-0.145)*(fr^5 +(s28dm^1.5 *fa^4)/(sind(24.6*(f(1)/statLoad))))^0.33;
+    gsl=s1*dm^(-0.145)*(fr^5 +(s2*dm^1.5 *fa^4)/(sind(24.6*(f(1)/statLoad))))^0.33;
     kball=kz*(ID+OD)/(OD-ID) *10^-12;
     fa=0.05*kz*(ID+OD)/(OD-ID);
     Rs=0.36*dm^2*fa;
-    mdrag = 0.4*Vm*kball*dm^5 *RPM^2 + 1.093e-7*rpm^2 *dm^3 *(RPM*dm^2 /oilViscosity)^-1.379 *Rs;
+    mdrag = 0.4*getVm(0,dm)*kball*dm^5 *RPM^2 + 1.093e-7*RPM^2 *dm^3 *(RPM*dm^2 /oilViscosity)^-1.379 *Rs;
 elseif(type=="angularBall")
     kz=4.4;
     r1=4.54e-7;
@@ -33,7 +34,7 @@ elseif(type=="angularBall")
     kball=kz*(ID+OD)/(OD-ID) *10^-12;
     fa=0.05*kz*(ID+OD)/(OD-ID);
     Rs=0.36*dm^2*fa;
-    mdrag = 0.4*Vm*kball*dm^5 *RPM^2 + 1.093e-7*rpm^2 *dm^3 *(RPM*dm^2 /oilViscosity)^-1.379 *Rs;
+    mdrag = 0.4*getVm(0,dm)*kball*dm^5 *RPM^2 + 1.093e-7*RPM^2 *dm^3 *(RPM*dm^2 /oilViscosity)^-1.379 *Rs;
 elseif(type=="cylindricalRoller")
     kz=5.1;
     r1=1.4e-6;
@@ -47,7 +48,7 @@ elseif(type=="cylindricalRoller")
     Rs=0.36*fm^2 *fa;
     id=5*kl*width/dm;
     cw=2.789e-3 *id^3 -2.786e-4*id^2 +0.0195*id +0.6439;
-    mdrag=4*vm*kroll*cw*width*dm^4 *RPM^2 +1.093e-7 *RPM^2 *dm^3 *(RPM*dm^2/oilViscosity)^-1.379 *Rs;
+    mdrag=4*getVm(0,dm)*kroll*cw*width*dm^4 *RPM^2 +1.093e-7 *RPM^2 *dm^3 *(RPM*dm^2/oilViscosity)^-1.379 *Rs;
 elseif(type=="taperedRoller")
     kz=6;
     r1=2.31e-6;
@@ -62,7 +63,7 @@ elseif(type=="taperedRoller")
     Rs=0.36*fm^2 *fa;
     id=5*kl*width/dm;
     cw=2.789e-3 *id^3 -2.786e-4*id^2 +0.0195*id +0.6439;
-    mdrag=4*vm*kroll*cw*width*dm^4 *RPM^2 +1.093e-7 *RPM^2 *dm^3 *(RPM*dm^2/oilViscosity)^-1.379 *Rs;
+    mdrag=4*getVm(0,dm)*kroll*cw*width*dm^4 *RPM^2 +1.093e-7 *RPM^2 *dm^3 *(RPM*dm^2/oilViscosity)^-1.379 *Rs;
 elseif(type=="sphericalRoller")
     kz=5.5;
     r1=2.3e-6;
@@ -81,12 +82,12 @@ elseif(type=="sphericalRoller")
     Rs=0.36*fm^2 *fa;
     id=5*kl*width/dm;
     cw=2.789e-3 *id^3 -2.786e-4*id^2 +0.0195*id +0.6439;
-    mdrag=4*vm*kroll*cw*width*dm^4 *RPM^2 +1.093e-7 *RPM^2 *dm^3 *(RPM*dm^2/oilViscosity)^-1.379 *Rs;
+    mdrag=4*getVm(0,dm)*kroll*cw*width*dm^4 *RPM^2 +1.093e-7 *RPM^2 *dm^3 *(RPM*dm^2/oilViscosity)^-1.379 *Rs;
 end
 phirs = 1/exp(3e-8*RPM*oilViscosity*2*dm*sqrt(kz/(2*(OD-ID))));
 mrr=phiish*phirs*grr*(oilViscosity*RPM)^0.6;
 
-phibl=1/exp(2.6e-8 *(ROM*oilViscosity)^1.4 *dm);
+phibl=1/exp(2.6e-8 *(RPM*oilViscosity)^1.4 *dm);
 usl=0.12*phibl+(1-phibl)*uehl;
 msl=gsl*usl;
 

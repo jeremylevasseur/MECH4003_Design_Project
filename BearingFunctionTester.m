@@ -14,8 +14,14 @@ end
 fe
 
 global catalog;
-BearingFind(catalog,1000,possibleTypes(1),fe(1)/1000,1.2,2)
+possibleBearings = BearingFind(catalog,1000,possibleTypes(1),fe(1)/1000,1.2,2);
 
-BearingLife(ans(1,:),fe(1)/1000,99)
+BearingLife(possibleBearings(1,:),fe(1)/1000,99)
 
-BearingHeat(BearingFriction(fe(1)),6000,OD, ID, width, oilViscosity)
+oilViscosity = 10;
+type = possibleTypes(1);
+ID = table2array(possibleBearings(1,2));
+OD = table2array(possibleBearings(1,3));
+width = table2array(possibleBearings(1,4));
+staticLoad =table2array(possibleBearings(1,6));
+BearingHeat(BearingFriction(fe,6000,type,OD,ID,width,staticLoad,oilViscosity),6000)
