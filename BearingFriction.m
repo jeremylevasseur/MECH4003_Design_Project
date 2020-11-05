@@ -34,7 +34,7 @@ elseif(type=="angularBall")
     fa=0.05*kz*(ID+OD)/(OD-ID);
     Rs=0.36*dm^2*fa;
     mdrag = 0.4*Vm*kball*dm^5 *RPM^2 + 1.093e-7*rpm^2 *dm^3 *(RPM*dm^2 /oilViscosity)^-1.379 *Rs;
-elseif(type="cylindricalRoller")
+elseif(type=="cylindricalRoller")
     kz=5.1;
     r1=1.4e-6;
     s1=0.16;
@@ -75,7 +75,7 @@ elseif(type=="sphericalRoller")
     s4=41;
     grr=min(r1*dm^1.85 *(fr+r2*f(1))^0.54,r3*dm^2.3 *(fr+r4*f(1))^0.31);
     uehl=0.04;
-    gsl = min(s1*dm^0.25 +*(fr^4 +s2*f(1)^4)^0.33,s3*dm^0.94 *(fr^3 +s4*f(a)^3)^0.33);
+    gsl = min(s1*dm^0.25 *(fr^4 +s2*f(1)^4)^0.33,s3*dm^0.94 *(fr^3 +s4*f(a)^3)^0.33);
     kroll=kl*kz*(ID+OD)/(OD-ID);
     fa=0.05*kz*(OD+ID)/(OD-ID);
     Rs=0.36*fm^2 *fa;

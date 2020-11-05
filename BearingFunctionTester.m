@@ -13,9 +13,9 @@ for(i=1:1:(size(possibleTypes)+1))
 end
 fe
 
-
+global catalog;
 BearingFind(catalog,1000,possibleTypes(1),fe(1)/1000,1.2,2)
 
 BearingLife(ans(1,:),fe(1)/1000,99)
 
-BearingHeat(BearingFriction(fe(1)),6000)
+BearingHeat(BearingFriction(fe(1)),6000,OD, ID, width, oilViscosity)
