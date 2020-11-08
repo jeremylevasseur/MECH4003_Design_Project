@@ -2,7 +2,7 @@ function [CR] = find_CR( input_args )
 %UNTITLED4 Summary of this function goes here
 %   Detailed explanation goes here
 
-phi=0.349
+phi=0.349;
 %change N below
 a=(N+2)/(2*P);
 I=(sin(phi)*cos(phi)*(gr))/(2*((gr)+1)); %R=dg/dp which is the gear ratio
