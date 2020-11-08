@@ -1,8 +1,4 @@
-%run loadCatalog() first time opening matlab or after making catalog
-%changes
 
-X = [0 1 0];
-Y = [2 8 7];
 [X Y] = BearingForceEquillibrium(1,2,1,1,1,0,0,0,[1 2 3],[4,0,0]);
 
 possibleTypes = typesAllowed(X,"herringbone")
@@ -17,11 +13,10 @@ global catalog;
 possibleBearings = catalog(1,:);
 for i=1:length(possibleTypes)
     BearingFind(catalog,1000,possibleTypes(i),fe(1),95,105);
-    possibleBearings = [possibleBearings; BearingFind(catalog,1000,possibleTypes(i),fe(1),1.2,2)]
+    possibleBearings = [possibleBearings; ans]
 end
-possiblebearings(1,:) = [];
+possibleBearings(1,:) = [];
 
-size(possibleBearings)
 BearingLife(possibleBearings(1,:),fe(1)/1000,99)
 
 oilViscosity = 10;
