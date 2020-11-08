@@ -14,8 +14,14 @@ end
 fe
 
 global catalog;
-possibleBearings = BearingFind(catalog,1000,possibleTypes(1),fe(1)/1000,1.2,2);
+possibleBearings = catalog(1,:);
+for i=1:length(possibleTypes)
+    BearingFind(catalog,1000,possibleTypes(i),fe(1),95,105);
+    possibleBearings = [possibleBearings; BearingFind(catalog,1000,possibleTypes(i),fe(1),1.2,2)]
+end
+possiblebearings(1,:) = [];
 
+size(possibleBearings)
 BearingLife(possibleBearings(1,:),fe(1)/1000,99)
 
 oilViscosity = 10;
