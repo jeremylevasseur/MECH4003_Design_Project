@@ -1,7 +1,8 @@
-function [Vg] = find_gear_velocity(r_gear, omega_in)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
-Vg=2*pi*(1/12)*r_gear*omega_in; %velocity based on radius of first gear, I think ft/min or something stupid like that
+function [Vg] = find_gear_velocity(r_gear,omega_in)
+%find_gear_velocity calculates the pitchline velocity of a gear given its
+%radius and angular velocity.
+
+Vg=2*pi*(1/12)*r_gear*omega_in; %velocity in ft/min
 
 end
 
