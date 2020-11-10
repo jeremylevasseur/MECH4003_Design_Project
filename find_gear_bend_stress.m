@@ -10,7 +10,7 @@ Ft=33000*Wdot/Vg; %force at gear interface, in lbs
 
 
 b=find_gear_width(P);
-J=0.5; %just kinda of guessed er and didn't actually calc # of teeth
+J=0.8; %just kinda of guessed er and didn't actually calc # of teeth
 Kv=(78+sqrt(Vg))/78;
 Ko=1;% from table 15.1, assuming uniform power and shock
 if 0<=b<=2
