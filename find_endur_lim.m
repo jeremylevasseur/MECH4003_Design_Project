@@ -8,7 +8,7 @@ function [Sn] = find_endur_lim(P,type)
 Su= 187000; %tensile strength in psi
 SprimeN= 0.5*Su;
 CL=1; %bending load
-% for P>5 but 0.85 for P<=5
+ % for P>5 but 0.85 for P<=5
 if P>5
     Cg=1;
 end
@@ -27,9 +27,8 @@ end
 if type==2
     kms=1;
 end
-
+    
 Sn=SprimeN*CL*Cg*Cs*Kr*Kt*kms; %infinite life endurance limit
-end
 
 
 

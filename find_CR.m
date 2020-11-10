@@ -1,4 +1,4 @@
-function [CR] = find_CR( r_pinion,gear_ratio,P,phi,I,Np)
+function [CR] = find_CR( r_pinion,gear_ratio,P,phi,Np)
 %find_CR calculates the contact ration of meshed gears.
 %   The function take in the radius of the pinion, the gear ratio, the
 %   pitch, and the pressure angle
