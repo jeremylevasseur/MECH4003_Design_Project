@@ -22,7 +22,7 @@ Fb = zeros(1,3);
 %calculate the x force. Left bearing takes leftward loads, right bearing
 %takes rightward. follows skf recommendations
 if(Fapplied(1)<0)
-    Fa(1) = Fapplied(1);
+    Fa(1) = -Fapplied(1);
 elseif(Fapplied(1)>1)
     Fb(1) = -Fapplied(1);
 end
@@ -35,8 +35,8 @@ A = [1 1;
     0 Lb];
 b = A\c;
 
-Fa(2) = b(1);
-Fb(2) = b(2);
+Fa(2) = abs(b(1));
+Fb(2) = abs(b(2));
 
 
 %solve Mxz about left bearing and Fz equations
