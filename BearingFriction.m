@@ -94,7 +94,7 @@ elseif(type=="sphericalRoller")
     mdrag=4*getVm(0,dm)*kroll*cw*width*dm^4 *RPM^2 +1.093e-7 *RPM^2 *dm^3 *(RPM*dm^2/oilViscosity)^-1.379 *Rs;
 
 else
-    disp("weiner");
+    error("invalid bearing type");
 end
 phirs = 1/exp(3e-8*RPM*oilViscosity*2*dm*sqrt(kz/(2*(OD-ID))));
 mrr=phiish*phirs*grr*(oilViscosity*RPM)^0.6
@@ -104,7 +104,7 @@ usl=0.12*phibl+(1-phibl)*uehl;
 msl=gsl*usl;
 
 
-
+%convert from Nmm to Nm
 frictionTorque=(mrr+msl+mdrag)/1000
 end
 
