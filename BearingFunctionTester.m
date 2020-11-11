@@ -31,10 +31,10 @@ end
 lives2 = table(lives);
 possibleBearings = [possibleBearings, lives2]
 
-% oilViscosity = 10;
-% type = possibleTypes(1);
-% ID = table2array(possibleBearings(1,2));
-% OD = table2array(possibleBearings(1,3));
-% width = table2array(possibleBearings(1,4));
-% staticLoad =table2array(possibleBearings(1,6));
-% BearingHeat(BearingFriction(fe,6000,type,OD,ID,width,staticLoad,oilViscosity),6000)
+oilViscosity = 10;
+type = string(table2cell(possibleBearings(1,1)));
+ID = table2array(possibleBearings(1,2));
+OD = table2array(possibleBearings(1,3));
+width = table2array(possibleBearings(1,4));
+staticLoad =table2array(possibleBearings(1,6));
+BearingHeat(BearingFriction(X,6000,type,OD,ID,width,staticLoad,oilViscosity),6000)
