@@ -15,14 +15,14 @@ end
 
 %remove types based on gear artrangment. single helical requires a bearing
 %that can locate
-if(gearArrangement =="singleHelical")
-     types = types(find(types ~= "deepball"));
-     types = types(find(types ~= "cylindricalRoller"));
-     types = types(find(types ~= "sphericalRoller"));
-elseif(gearArrangement == "herringbone")
-    types = types(find(types ~= "angularBall"));
-    types = types(find(types ~= "taperRoller"));
-end
+% if(gearArrangement =="singleHelical")
+%      types = types(find(types ~= "deepBall"));
+%      types = types(find(types ~= "cylindricalRoller"));
+%      types = types(find(types ~= "sphericalRoller"));
+% elseif(gearArrangement == "herringbone")
+%     types = types(find(types ~= "angularBall"))
+%     types = types(find(types ~= "taperRoller"))
+% end
 
 end
 

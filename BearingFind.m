@@ -20,7 +20,7 @@ tableIDs = table2array(catalog(:,2));
 
 %loop through the type/ID vector to see if they meet the specs
 for(i=2:height(catalog))
-        if(tabletypes(i)==type && tableIDs(i)>=minID && tableIDs(i)<=maxID)
+        if(tabletypes(i)==type && tableIDs(i)>=minID )%&& tableIDs(i)<=maxID
             %if the bearing meets the specs, add it to potentials list
             potentials = [potentials; catalog(i,:)];
     end
