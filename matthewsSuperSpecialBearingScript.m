@@ -19,7 +19,7 @@ end
 
 % add variable for gearclearance to bearings
 % add left/right gear/pinion switches
-[X Y] = BearingForceEquillibrium(31*0.0254+0.3,31*0.0254+0.3*2,31*0.0254+0.3,31*0.0254+0.3,1,gearWeight,1205,0,[50911*0.04536*9.81 50911*0.04536*9.81 0],[0,50911*0.04536*9.81*gearRad,0]);
+[X Y] = BearingForceEquillibrium(31*0.0254+0.3,31*0.0254+0.3*2,31*0.0254+0.3,31*0.0254+0.3,1,gearWeight,1205,0,[50911*0.04536*9.81 50911*0.04536*9.81 0],[0,50911*0.04536*9.81*gearRad,0])
 
 if(bearing=="left")
     vec = X;
@@ -68,3 +68,14 @@ powerLoss = RPM*2*pi()*1/60*frictionTorque(getUnitLoad(W,2*bestR,bestL),2*bestR,
 % initial = [0.15,0.1,0.001]
 % A=[]
 % b[]
+
+%thrust
+if(abs(vec(1))>0)
+    disp("thrust")
+    thrustProb=optimproblem('ObjectiveSense','min')
+    R1=optimvar('R','LowerBound',bestR+bestc)
+    Lt=optimvar('L','LowerBound',0)
+    d0=optimvar('d0','LowerBound',0)
+    h2=optimvar('h2','LowerBound',0.001*0.0254)
+    
+end
