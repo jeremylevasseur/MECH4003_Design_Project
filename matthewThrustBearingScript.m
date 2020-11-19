@@ -4,7 +4,7 @@ W=22654;
 RPM=3600;
 
 
-for L=0.01:0.01:2*R1
+for L=0.01:0.01:6*R1
     x=round(0.5+2*pi()*R1/L);
     B=2*pi()*(R1+0.5*L)/x;
     lengthRatio = L/R1;
@@ -44,8 +44,8 @@ while(i<=z)
     %actual H
     possibleBearings(i,11) = (possibleBearings(i,4)*possibleBearings(i,11)*mew*pi()*(RPM/60)^2*(possibleBearings(i,1)+possibleBearings(i,2))^4 / possibleBearings(i,6)) * 1e-6;
     %actual P
-    
-    if (possibleBearings(i,4) >10 || possibleBearings(i,10)<=0)
+    possibleBearings(i,9) = oilViscosity(40,40)*RPM/(60*possibleBearings(i,9))*(possibleBearings(i,1)/possibleBearings(i,6))^2
+    if (possibleBearings(i,4) >10 || possibleBearings(i,10)<=0 || possibleBearings(i,9)<possibleBearings(i,8))
         possibleBearings(i,:)=[];
         i=i-1;
         z=z-1;
