@@ -29,38 +29,52 @@ end
 W=norm(vec);
 
 
-
-mew = 7e-6;%ISO VG7
 cp=1220;
 
 ititialOilTemp=40;
 oilTemp=100;
-while(oilTemp>93)
-    R
-    L=W/(2*R*P);
-    c=0.0001;
-    p=0;
-    while(p==0)
-        S=getBearingCharacteristic(R,c,mew,RPM,P);
-        h0=lookupMinFilmThickness(S,L/(2*R),c);
-        if(h0<getMinH0(2*R))
-            c=c*0.9;
-            continue
-        else
-            p=1;
-        end
-    end
-    if(c-h0>maxEccent)
-        R=R*1.1
-        continue
-    end
-    f=lookupCoefficientFriction(S,L/(R*2),R/c);
-    Q=lookupFlowRate(S,L/(2*R),R,c,RPM);
-    oilTemp = ititialOilTemp+oilTempRise(frictionTorque(W,R*2,f),Q,cp);
-    if(oilTemp>93)
-        R=R*1.1;
-    end
-end
+
+P=getUnitLoad(norm(X(1:2)),2*R,L);
+mew=oilViscosity(40,oilTemp);
+S=getBearingCharacteristic(R,c,mew,RPM,P)
+f=lookupCoefficientFriction(S,L/(R*2),R/c)
+Q=lookupFlowRate(S,L/(2*R),R,c,RPM);
+oilTemp = ititialOilTemp+oilTempRise(frictionTorque(W,R*2,f),Q,cp);
+
+
+%z=0;
+% while(oilTemp>93)
+%     if(z>100) break; end;
+%     R
+%     L=W/(2*R*P);
+%     c=0.0001;
+%     p=0;
+%     j=0;
+%     z=z+1;
+%     while(p==0)
+%         if(j>100) break; end;
+%         mew=oilViscosity(40,oilTemp);
+%         S=getBearingCharacteristic(R,c,mew,RPM,P)
+%         h0=lookupMinFilmThickness(S,L/(2*R),c);
+%         if(h0<getMinH0(2*R) && h0<c*0.9)
+%             c=c*1.1
+%             continue
+%         else
+%             p=1;
+%         end
+%         j=j+1;
+%     end
+%     if(c-h0>maxEccent)
+%         R=R*1.1
+%         continue
+%     end
+%     f=lookupCoefficientFriction(S,L/(R*2),R/c);
+%     Q=lookupFlowRate(S,L/(2*R),R,c,RPM);
+%     oilTemp = ititialOilTemp+oilTempRise(frictionTorque(W,R*2,f),Q,cp);
+%     if(oilTemp>93)
+%         R=R*1.1;
+%     end
+% end
 R
 L
 c

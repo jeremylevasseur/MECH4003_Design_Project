@@ -8,7 +8,8 @@ b=[0;0.8;1.8;3.6;10;25;75;200];%0.5
 c=[0;0.8;1.5;2.8;9;24;75;200];%1
 d=[0;0.6;1.2;2;7.5;24;75;200];%infintite
 
-coefFric = interpolateCharts(S,lengthRatio,x,a,b,c,d)/clearanceRatio;
+coefFric = 7/clearanceRatio;
+%coefFric = interpolateCharts(S,lengthRatio,x,a,b,c,d)/clearanceRatio;
 
 end
 
