@@ -1,4 +1,4 @@
-function [oilTemp] = shitsFuckedBrotha(W,R,L,c,initialOilTemp,RPM)
+function [oilTemp] = getOilTemp(W,R,L,c,initialOilTemp,RPM)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 cp=1220;
