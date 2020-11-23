@@ -11,5 +11,9 @@ d=[0.4;1.6;2.7;3.1;3.2;3.2;3.2];
 % Q = 4*(radius^2)*clearance*RPM/60*lengthRatio*2;
 Q = interpolateCharts(S,lengthRatio,x,a,b,c,d)*(radius^2)*clearance*RPM/60*lengthRatio*2;
 
+if(Q<=0)
+    Q=0;
+end
+
 end
 

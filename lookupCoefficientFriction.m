@@ -10,6 +10,9 @@ d=[0;0.6;1.2;2;7.5;24;75;200];%infintite
 
 %coefFric = 7/clearanceRatio;
 coefFric = interpolateCharts(S,lengthRatio,x,a,b,c,d)/clearanceRatio;
+if(coefFric<=0)
+    coefFric = 0;
+end
 
 end
 

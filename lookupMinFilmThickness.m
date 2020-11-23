@@ -1,4 +1,4 @@
-function [minThickness] = lookupMinFilmThickness(S,lengthRatio,c)
+function [minThickness] = lookupMinFilmThickness(S,lengthRatio,clearance)
 %UNTITLED5 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -11,7 +11,11 @@ c=[0;0.05;0.18;0.35;0.7;0.86;0.98;1];%ratio=1
 d=[0;0.08;0.4;0.74;0.95;0.98;1;1];%ratio = infinite
 
 %minThickness = 0.5*c;
-minThickness = interpolateCharts(S,lengthRatio,x,a,b,c,d)*c;
+minThickness = interpolateCharts(S,lengthRatio,x,a,b,c,d)*clearance;
+
+if( minThickness<=0)
+    minThickness = 0;
+end
 
 end
 

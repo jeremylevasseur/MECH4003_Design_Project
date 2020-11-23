@@ -1,10 +1,10 @@
-R1 = 0.3;%whatever the journal bearing is
+R1 = 0.2232;%whatever the journal bearing is
 possibleBearings =[];
 W=22654;
 RPM=3600;
 
 yet=0;
-for L=0.5*R1:0.05:15*R1
+for L=5*R1:0.05:15*R1
     yet = yet+1
     x=round(0.5+2*pi()*R1/L);
     B=2*pi()*(R1+0.5*L)/x;
@@ -27,10 +27,8 @@ for L=0.5*R1:0.05:15*R1
             for m=3:6
                 Y=[newArray(k-3,m); newArray(k-2,m); newArray(k-1,m);newArray(k,m)];
                 newnewArray(k/4,m) = interp1(X,Y,n,'Linear','extrap');
-                
-            end
-            if(newnewArray(k/4,5)<0)
-                newnewArray(k/4,5)=0;
+                if(newnewArray(k/4,m)<0)
+                    newnew
             end
             P = thrustUnitLoad(W,x,L,R1,n)* 1e-3;
             d0 = L*tand(n);

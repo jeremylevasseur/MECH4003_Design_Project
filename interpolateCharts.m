@@ -2,7 +2,7 @@ function [y] = interpolateCharts(S,lengthRatio,X,A,B,C,D)
 %UNTITLED7 Summary of this function goes here
 %   Detailed explanation goes here
 
-a=interp1(X,A,S,'makima')
+a=interp1(X,A,S,'makima');
 b=interp1(X,B,S,'makima');
 c=interp1(X,C,S,'makima');
 d=interp1(X,D,S,'makima');
