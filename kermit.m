@@ -3,12 +3,12 @@ function [] = kermit(gear_ratio,phi,psy,omega_in)
 %pressure angle of gears, and angular velocity of input gear in rpm and
 %uses it to find potential value of P that will allow the bending stress,
 %surface fatigue stress and contact ratio to agree.
- 
- A=[0,0,0,0,0,0,0,0,0,0,0];
-
-for b=1:0.5:60 %choosing range of gear width values to step through
-   for r_pinion=12:0.25:36  %choosing range of pinion radii to step through
-       for P=0.5:0.1:4  %choosing range of diametral pitch values to step through
+ z=1; %counter to find the row where the minimum volume occurs
+ A=[0,0,0,0,0,0,0,0,0,0,0,0,0];
+min_vol=1000000000000; % VARIABLE FOR MIN VOLUME
+for b=1:2:60 %choosing range of gear width values to step through
+   for r_pinion=12:1:36  %choosing range of pinion radii to step through
+       for P=0.5:0.5:4  %choosing range of diametral pitch values to step through
             Vg=find_gear_velocity(r_pinion,omega_in); %finding velocity at gear interface
             Kv=(78+sqrt(Vg))/78; %Dynamic factor, following curve for finely ground gear
             I=(sind(phi)*cosd(phi)*(gear_ratio))/(2*((gear_ratio)+1)); %finding geometry factor
@@ -53,8 +53,13 @@ for b=1:0.5:60 %choosing range of gear width values to step through
                     SF_sigma_h=SH/sigma_h; %calculating safety factor for surface fatigue stress
                     if sigma<(2*inf_life)%ensuring bending stress is less than infinite life endurance limit by a SF of 2
                         SF_sigma=inf_life/sigma; %calculating safety factor for tooth bending stress
-                        A=[A;r_pinion,P,b,SF_sigma,SF_sigma_h,CR,Np,Ng,Ft,sigma,sigma_h]; %outputting results of possible values to an array
-              
+                        vol=pi*(r_pinion^2)*b+pi*((gear_ratio*r_pinion)^2)*b;     
+                        A=[A;r_pinion,P,b,SF_sigma,SF_sigma_h,CR,Np,Ng,Ft,sigma,sigma_h,vol,Ft]; %outputting results of possible values to an array
+                        z=z+1;
+                        if vol<min_vol
+                            min_vol=vol;
+                            row=z;
+                        end
                     end
                 end
             end
@@ -63,6 +68,18 @@ for b=1:0.5:60 %choosing range of gear width values to step through
         
    end
 end
-T=array2table(A,'VariableNames',{'Pinion_Radius','Pitch','Gear_Width','Safety_Factor_Bending_Stress','Safety_Factor_Surface_Stress','Contact_Ratio','Num_Teeth_Pinion','Num_Teeth_Gear','Force','sigma','sigma_h'})
-end
+
+efficiency=effish(gear_ratio, A(row,1),A(row,2),psy,phi);%finding efficiency of gear mesh in percent**
+heat_gen=100*(1-efficiency/100); %finding the power lost which is assumed to be completely transformed to heat 
+
+fprintf('\n \nTo minimize volume of the gears, the pinion radius will be %4.2f inches,\n', A(row,1));
+fprintf('the pitch will be %.2f teeth per inch of diameter,\n', A(row,2));
+fprintf('the gear width will be %.2f inches, \n', A(row,3));
+fprintf('the safety factor for bending stress will be %.2f, \n', A(row,4));
+fprintf('the safety factor for surface fatigue stress will be %.2f, \n', A(row,5));
+fprintf('the contact ratio will be %.2f, \n', A(row,6));
+fprintf('the radial force will be %.2f lbs and the axal force will be %.2f lbs,\n', A(row,9)*cosd(phi),A(row,9)*cosd(psy)); 
+fprintf('the volume of both gears combined will be %.2f in^3, \n', A(row,12));
+fprintf('the tangential force is %.2f lbs, \n', A(row,13));
+fprintf('the heat generated at the gear mesh is %.2f MW, \n', heat_gen);
 

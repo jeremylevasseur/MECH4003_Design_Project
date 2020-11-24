@@ -18,7 +18,8 @@ end
 
 Cs=0.85; %for specific material assuming finely ground figure 8.13
 Kr=0.814;%table 15.3 assuming 99% reliability
-Kt=1; %if lubrication temp is less than 160F
+%Kt=1; %if lubrication temp is less than 160F
+Kt=620/(460+300); %where 300 is the lub temp
 
 %type 1 is input/output gear, type 2 is intermediate gear
 if type==1

@@ -3,8 +3,8 @@ function [ sigma_h ] = find_sigma_h( P,r_pinion,CR,Ft,psi,b,Kv,Ko,Km,I)
 %   Detailed explanation goes here
 %paramaters for surface fatigue
 
-%Cp=2300; %from table 15.4, (Psi)^1/2
-Cp=0.564*sqrt((1)/(2*((1-(0.33^2))/(29000000))));
+
+Cp=0.564*sqrt((1)/(2*((1-(0.33^2))/(29000000)))); %from equations near table 15.4
 
 N=find_num_teeth(P,r_pinion);
 dp=2*r_pinion;
