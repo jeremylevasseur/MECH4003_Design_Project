@@ -23,8 +23,8 @@ YieldStress_imp = 143000; %[psi]
 YieldStress = YieldStress_imp * 6895; %[Pa]
 UltimateStress_imp = 179000; %[psi]
 UltimateStress = UltimateStress_imp * 6895; %[Pa]
-Kf_bending = 2; %concentration factor taken from machined steel
-Kf_torsion = 1.5; %concentration factor taken from machined steel
+Kf_bending = 1.79; %assuming semicircular end, from Peterson's
+Kf_torsion = 3.4; %assuming semicircular end, from Peterson's
 Kf_axial = 2; %concentration factor taken from machined steel
 
 %------------------------------CALCULATIONS------------------------------%
@@ -129,3 +129,10 @@ KeySideLength_input = Diameter_input/4 %[m]
 KeySideLength_output = Diameter_output/4 %[m]
 KeyLength_input = Diameter_input * 1.8 %[m]
 KeyLength_output = Diameter_output * 1.8 %[m]
+
+%Calculations are done to ensure that the previously calculated torque does
+%not exceed the yields for the shaft and keys
+ShaftYield_input = ((pi()*(Diameter_input^3))/16)*(0.58*YieldStress); %[N.m]
+ShaftYield_output = ((pi()*(Diameter_output^3))/16)*(0.58*YieldStress); %[N.m]
+KeyYield_input = (0.58*YieldStress*KeyLength_input*(Diameter_input^2))/8; %[N.m]
+KeyYield_output = (0.58*YieldStress*KeyLength_output*(Diameter_output^2))/8; %[N.m]
