@@ -1,10 +1,11 @@
-R1 = 0.2377+.015;%whatever the journal bearing is
+function [possibleBearings] = thrustBearingDeisgn(R1,W,RPM,SAEnum,oilTin,ThrustBearingData)
+%UNTITLED Summary of this function goes here
+%   Detailed explanation goes here
+
 possibleBearings =[];
-W=22654;
-RPM=6000;
 
 yet=0;
-for L=0.1*R1:0.005:R1
+for L=0.1*R1:0.05:R1
     yet = yet+1
     x=round((0.5*L+R1)*2*pi()/(1.1*L));
     B=2*pi()*(R1+0.5*L)/(x*1.1);
@@ -44,25 +45,27 @@ for L=0.1*R1:0.005:R1
 end
 i=1;
 z=length(possibleBearings(:,1))
-mew = oilViscosity(40,40);
+mew = oilViscosity(SAEnum,oilTin);
 possibleBearings
 while(i<=z)
     %actual H
     possibleBearings(i,11) = (possibleBearings(i,4)*possibleBearings(i,11)*mew*pi()*(RPM/60)^2*(possibleBearings(i,1)+possibleBearings(i,2))^4 / possibleBearings(i,6)) * 1e-6;
     %actual P
-    possibleBearings(i,9) = oilViscosity(40,40)*RPM/(60*possibleBearings(i,9))*(possibleBearings(i,1)/possibleBearings(i,6))^2;
+    possibleBearings(i,9) = mew*RPM/(60*possibleBearings(i,9))*(possibleBearings(i,1)/possibleBearings(i,6))^2;
     if (possibleBearings(i,4) >10 || possibleBearings(i,10)<=0 || possibleBearings(i,9)<possibleBearings(i,8))
         possibleBearings(i,:)=[];
         i=i-1;
         z=z-1;
-        if(mod(z,5)==0)
+        if(mod(z,20)==0)
             z
         end
     end
     i=i+1;
 end
 
-t = table();
-t=array2table((possibleBearings));
-t.Properties.VariableNames = ["L","R1","B","x","beta","d0","h2","P","S","Q","H"];
-t
+% t = table();
+% t=array2table((possibleBearings));
+% t.Properties.VariableNames = ["L","R1","B","x","beta","d0","h2","P","S","Q","Hmega"];
+% t
+end
+
