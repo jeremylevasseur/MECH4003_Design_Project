@@ -1,16 +1,24 @@
-shaft = "input";
+%set which bearing to solve for
+shaft = "output";
 bearing = "right";
-SFrad=1;
-SFthrust=0.75;
 
-width=30*0.0254;
-F=309882;
-F=F*SFrad;
+%set the safety factors to use 
+SFrad=2;
+SFthrust=2;
+
+%all the gear parameters
+width=30*0.0254;%gear width, in metres
+F=309882;%gear force = axial force = radial force, in Newtons
+
+%all the shaft specific parameters
 if(shaft=="input")
     RPM = 6000;
     gearRad = 19*0.0254;
+    %assume gear is pure steel, calculat weight in N
     gearWeight = gearRad^2*pi()*width*7850*9.81;
+    %The minimum shaft diameter, as determined from shaft calcs, in metres
     shaftDiam = 0.3723;
+    %setup vector to solve for bearing forces
      b=[F;
     -1*F*gearRad+0.681*F;
     gearWeight*0.681;
@@ -20,8 +28,11 @@ if(shaft=="input")
 elseif(shaft=="output")
     RPM=3600;
     gearRad = 31.67*0.0254;
+    %assume gear is pure steel, calculat weight in N
     gearWeight = gearRad^2*pi()*width*7850*9.81;
+    %The minimum shaft diameter, as determined from shaft calcs, in metres
     shaftDiam = 0.4420;
+    %setup vector to solve for bearing forces
     b=[-1*F;
     -1*F*gearRad-0.681*F;
     gearWeight*0.681;
@@ -29,32 +40,30 @@ elseif(shaft=="output")
     0;
     -1*F];
 else
-    error("AIDS");
+    error("shaft DNE");
 end
 
-
-% add variable for gearclearance to bearings
-%[X Y] = BearingForceEquillibrium(31*0.0254+0.3,31*0.0254+0.3*2,31*0.0254+0.3,31*0.0254+0.3,1,gearWeight,1205,0,[50911*0.04536*9.81 50911*0.04536*9.81 0],[0,50911*0.04536*9.81*gearRad,0])
-
+%vectors for bearing load solution
+%see FBD!!
 A=[1, 1, 0, 0, 0, 0;
     0, 1.362, 0, 0, 0, 0;
     0, 0, 0, 1.362, 0, 0;
     0, 0, 1, 1, 0, 0;
     0, 0, 0, 0, 1, 0;
     0, 0, 0, 0, 0, 1];
-
+%solve for bearing loads (both left and right)
 [X,R]=linsolve(A,b);
 
-
+%isolate forces of 
 if(bearing=="left")
-    vec = [X(5)*SFthrust;X(1);X(3)];
+    vec = [X(5)*SFthrust;X(1)*SFrad;X(3)*SFrad]
 elseif(bearing =="right")
-    vec=[X(6)*SFthrust;X(2);X(4)];
+    vec=[X(6)*SFthrust;X(2)*SFrad;X(4)*SFrad]
 else
     error("AIDS");
 end
 
-W=norm(vec(2:3));
+W=norm(vec(2:3))
 maxEccent = 0.01;
 SAEnum = 70;%10to70
 

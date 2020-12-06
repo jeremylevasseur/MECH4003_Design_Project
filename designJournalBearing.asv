@@ -44,16 +44,11 @@ for R=shaftRadius:0.05:3*shaftRadius
             i=i+1;
             disp("s "+S+" l "+L+" R "+R+" c "+c+" T "+oilTemp);
             
-            %if the bearing doesnt meet requirements, skip to next loop
+            %if th
             if(oilTemp>91 || oilTemp<0 || f==0 || Q==0)
                 continue;
             else
-                
-                %lookup the minimum actual h0 at full load
                 minH = lookupMinFilmThickness(S,L/(2*R),c);
-                
-                %if the actual h0 is greater than the minimum allowable, at
-                %the bearing to possibl bearings list
                 if(minH>getMinH0(2*R) && minH<c)
                     powerLoss = RPM*2*pi()*1/60*frictionTorque(P,2*R,lookupCoefficientFriction(S,L/R,R/c));
                     powerLoss = powerLoss *1e-6;
@@ -65,6 +60,6 @@ for R=shaftRadius:0.05:3*shaftRadius
     end
 end
 
-%return possible bearings list
+
 end
 
