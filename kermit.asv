@@ -4,11 +4,11 @@ function [] = kermit(gear_ratio,phi,psy,omega_in)
 %uses it to find potential value of P that will allow the bending stress,
 %surface fatigue stress and contact ratio to agree.
  z=1; %counter to find the row where the minimum volume occurs
- A=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+ A=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 min_vol=1000000000000; % VARIABLE FOR MIN VOLUME
-for b=1:1:30 %choosing range of gear width values to step through
-   for r_pinion=12:1:24  %choosing range of pinion radii to step through
-       for P=0.5:0.1:4  %choosing range of diametral pitch values to step through
+for b=1:0.5:54 %choosing range of gear width values to step through
+   for r_pinion=12:1:40  %choosing range of pinion radii to step through
+       for P=0.5:0.25:4  %choosing range of diametral pitch values to step through
             Vg=find_gear_velocity(r_pinion,omega_in); %finding velocity at gear interface
             Kv=(78+(Vg)^(0.5))/78; %Dynamic factor, following curve for finely ground gear
             I=(sind(phi)*cosd(phi)*(gear_ratio))/(2*((gear_ratio)+1)); %finding geometry factor
@@ -43,7 +43,7 @@ for b=1:1:30 %choosing range of gear width values to step through
             CR=find_CR(r_pinion,gear_ratio,P,phi,Np); %finding contact ratio
             sigma_h=find_sigma_h(P,r_pinion,CR,Ft,psy,b,Kv,Ko,Km,I); %finding the surface fatigue stress
 
-            Sfe=(0.4*(652)-10); %finding surface fatigure strength which is based on brinell hardness of material
+            Sfe=(0.4*(363)-10); %finding surface fatigure strength which is based on brinell hardness of material
             Cli=0.65; % life factor for 10^11 cycles
             Cr=1; %reliability factor for %99 reliability;
             SH=Cr*Cli*Sfe*1000; %finding surface fatigue stress endurance limit
@@ -59,7 +59,7 @@ for b=1:1:30 %choosing range of gear width values to step through
                     if sigma<(2*inf_life)%ensuring bending stress is less than infinite life endurance limit by a SF of 2
                         SF_sigma=inf_life/sigma; %calculating safety factor for tooth bending stress
                         vol=pi*(r_pinion^2)*b+pi*((gear_ratio*r_pinion)^2)*b;     
-                        A=[A;r_pinion,P,b,SF_sigma,SF_sigma_h,CR,Np,Ng,Ft,sigma,sigma_h,vol,Ft,nu,mass_flow,SH,inf_life,]; %outputting results of possible values to an array
+                        A=[A;r_pinion,P,b,SF_sigma,SF_sigma_h,CR,Np,Ng,Ft,sigma,sigma_h,vol,Ft,nu,mass_flow]; %outputting results of possible values to an array
                         z=z+1;
                         if vol<min_vol
                             min_vol=vol;
@@ -89,9 +89,6 @@ fprintf('the heat generated at the gear mesh is %.2f MW, \n', heat_gen);
 fprintf('the lubrication viscosity required at 40 C is is %.2f cSt, \n',A(row,14));
 fprintf('the number of teeth on the pinion is %.2f, \n', A(row,7));
 fprintf('the number of teeth on the gear is %.2f, \n', A(row,8));
-fprintf('the mass flow of ISO 32 lubrication to gear mesh is %.2f kg/s. \n',A(row,15));
-A(row,16)
-A(row,17)
-A(row,10)
-A(row,11)
+fprintf('the mass flow of ISO 68 lubrication to gear mesh is %.2f kg/s. \n',A(row,15));
+
 
